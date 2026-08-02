@@ -1,5 +1,7 @@
 # Pan-Tilt IR Radar Sistemi
 
+**Türkçe** | [English](README_EN.md)
+
 Arduino Uno tabanlı bu proje; pan-tilt mekanizma, Sharp IR mesafe sensörü,
 MPU6050, I2C LCD ve SD kart modülünü birleştiren aktif bir tarama sistemidir.
 Tarama telemetrisi USB seri portu üzerinden tarayıcıya aktarılır ve polar radar

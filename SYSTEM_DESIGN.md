@@ -1,5 +1,7 @@
 # Pan-Tilt IR Radar Sistemi
 
+**Türkçe** | [English](SYSTEM_DESIGN_EN.md)
+
 Bu proje RF tabanlı klasik radar değildir; Arduino kontrollü pan-tilt mekanizma
 ve Sharp analog IR mesafe sensörü ile çalışan aktif tarama sistemidir. Web
 arayüzü, seri porttan gelen telemetriyi polar radar ekranına dönüştürür.
