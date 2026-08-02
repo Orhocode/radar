@@ -1,0 +1,9 @@
+﻿\section{UYGULAMA VE GÖMÜLÜ YAZILIM MİMARİSİ}
+
+Arduino üzerinde çalışan gömülü yazılım, C++ dilinde nesne yönelimli olmayan ancak modüler fonksiyonlar içeren bir yapıda geliştirilmiştir.
+
+\subsection{Durum Makinesi (State Machine)}
+Sistem \texttt{IDLE} (Bekleme) ve \texttt{SCANNING} (Tarama) olmak üzere iki temel durumda çalışır. Buton kesmesi veya web arayüzünden gelen \texttt{START/STOP} komutlarıyla bu durumlar arasında geçiş yapılır.
+
+\subsection{Hedef Tespit Algoritması}
+Sensörden okunan mesafe, belirli bir eşik değerinin (\texttt{threshold\_cm}) altındaysa hedef olarak kabul edilir.

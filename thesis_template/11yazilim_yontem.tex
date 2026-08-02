@@ -1,0 +1,125 @@
+\section{KULLANILAN YAZILIMLAR, KÜTÜPHANELER VE YÖNTEMLER}
+
+Bu bölümde, projenin geliştirilmesinde kullanılan yazılım araçları, Arduino kütüphaneleri, iletişim protokolleri ve web teknolojileri açıklanmaktadır.
+
+\subsection{Arduino IDE}
+
+Arduino IDE, Arduino mikrodenetleyici kartları için C/C++ tabanlı yazılım geliştirme ortamıdır. Bu projede gömülü yazılım Arduino IDE üzerinden geliştirilmiş ve Arduino Uno kartına yüklenmiştir.
+
+\subsection{Arduino Kütüphaneleri}
+
+Projede kullanılan Arduino kütüphaneleri ve görevleri Tablo~\ref{tab:kutuphane}'de özetlenmiştir.
+
+\begin{table}[!ht]
+    \centering
+    \caption{Projede kullanılan Arduino kütüphaneleri}
+    \label{tab:kutuphane}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Kütüphane} & \textbf{Görevi} & \textbf{Kullanım Alanı} \\
+        \hline
+        Wire.h & I2C haberleşme protokolü & MPU6050 ve LCD iletişimi \\
+        \hline
+        SPI.h & SPI haberleşme protokolü & SD kart modülü iletişimi \\
+        \hline
+        SdFat.h & SD kart dosya sistemi yönetimi & CSV veri kaydı \\
+        \hline
+        Servo.h & Servo motor kontrolü & Pan ve tilt servo yönetimi \\
+        \hline
+        LiquidCrystal\_I2C.h & I2C LCD ekran kontrolü & 16x2 LCD üzerinde bilgi gösterimi \\
+        \hline
+        math.h & Matematiksel fonksiyonlar & Mesafe hesaplama (pow, isnan) \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\subsubsection{Wire.h Kütüphanesi}
+
+Arduino'nun I2C protokolü üzerinden haberleşmesini sağlar. Projede MPU6050 (0x68) ve LCD (0x3F) ile iletişim için kullanılmaktadır. \texttt{Wire.setWireTimeout()} ile I2C bus kilitlenmelerine karşı zaman aşımı koruması eklenmiştir.
+
+\subsubsection{SPI.h ve SdFat.h Kütüphaneleri}
+
+SPI protokolü ile SD kart modülüne erişim sağlar. SdFat, standart SD kütüphanesine kıyasla FAT16, FAT32 ve exFAT desteği sunar ve daha az bellek kullanır. Tarama verileri \texttt{RADAR.CSV} dosyasına kaydedilmektedir.
+
+\subsubsection{Servo.h Kütüphanesi}
+
+PWM sinyalleri ile servo motorların açısal konumlarını kontrol eder. Kapalı modda \texttt{detach()} ile PWM sinyali kesilerek akım tüketimi ve titreşim azaltılmaktadır.
+
+\subsubsection{LiquidCrystal\_I2C.h Kütüphanesi}
+
+PCF8574 tabanlı I2C arabirim kartı üzerinden 16x2 LCD ekranı kontrol eder. Ekranda radar durumu, hedef bilgisi ve ölçüm değerleri gösterilmektedir.
+
+\subsection{İletişim Protokolleri}
+
+\subsubsection{I2C Protokolü}
+
+I2C, birden fazla cihazın iki kablo (SDA, SCL) üzerinden haberleşmesini sağlayan master-slave protokolüdür. Bu projede Arduino (master), MPU6050 (slave, 0x68) ve LCD (slave, 0x3F) ile aynı I2C bus üzerinden iletişim kurmaktadır.
+
+\subsubsection{SPI Protokolü}
+
+SPI, tam çift yönlü yüksek hızlı seri haberleşme protokolüdür. SD kart modülü ile Arduino arasındaki veri transferi bu protokol üzerinden gerçekleştirilmektedir. Projede SPI saat hızı 4~MHz olarak ayarlanmıştır.
+
+\subsubsection{UART Seri Haberleşme}
+
+Arduino ile bilgisayar arasındaki iletişim USB üzerinden UART protokolü ile 115200~baud hızında sağlanmaktadır. Arduino, her sensör okumasında JSON formatında telemetri paketi üretmektedir.
+
+\subsection{Seri Protokol Tasarımı}
+
+Arduino tarafından üretilen JSON telemetri paketinin yapısı şu alanları içermektedir:
+
+\begin{table}[!ht]
+    \centering
+    \caption{JSON telemetri paketi alanları}
+    \label{tab:telemetri}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Alan} & \textbf{Tip} & \textbf{Açıklama} \\
+        \hline
+        type & string & Paket tipi (scan, boot) \\
+        \hline
+        enabled & boolean & Radar tarama durumu \\
+        \hline
+        pan & integer & Yatay servo açısı (derece) \\
+        \hline
+        tilt & integer & Dikey servo açısı (derece) \\
+        \hline
+        target & boolean & Hedef tespit durumu \\
+        \hline
+        distance\_cm & float/null & Ölçülen mesafe (cm) \\
+        \hline
+        threshold\_cm & float & Hedef tespit eşiği (cm) \\
+        \hline
+        vcc\_mv & integer & Arduino besleme gerilimi (mV) \\
+        \hline
+        sd & boolean & SD kart hazır durumu \\
+        \hline
+        mpu & boolean & MPU6050 hazır durumu \\
+        \hline
+        imu & object & İvme ve jiroskop ham verileri \\
+        \hline
+        uptime\_ms & long & Sistem çalışma süresi (ms) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Web arayüzünden Arduino'ya gönderilebilecek komutlar şunlardır: \texttt{START} (taramayı başlat), \texttt{STOP} (taramayı durdur), \texttt{TOGGLE} (aç/kapat durumunu değiştir) ve \texttt{STATUS} (anlık telemetri iste).
+
+\subsection{Web Teknolojileri}
+
+Web arayüzü, üç temel web teknolojisi kullanılarak geliştirilmiştir:
+
+\begin{itemize}
+    \item \textbf{HTML5:} Sayfa yapısının oluşturulması, canvas elementi ile radar ekranının tanımlanması.
+    \item \textbf{CSS3:} Koyu tema tasarımı, CSS değişkenleri ile renk yönetimi ve duyarlı düzen.
+    \item \textbf{JavaScript (ES6+):} Web Serial API ile seri port bağlantısı, JSON veri ayrıştırma, Canvas 2D API ile polar radar çizimi ve gerçek zamanlı arayüz güncellemesi.
+\end{itemize}
+
+\subsubsection{Web Serial API}
+
+Web Serial API, modern web tarayıcılarının (Chrome, Edge) USB seri portlara doğrudan erişmesine olanak tanır. Herhangi bir masaüstü uygulaması veya sürücü kurulumuna gerek kalmadan, tarayıcı üzerinden Arduino ile çift yönlü iletişim kurulabilmektedir.
+
+\subsubsection{Canvas 2D API}
+
+HTML5 Canvas elementi ve 2D çizim bağlamı, radar ekranının çizilmesinde kullanılmıştır. Mesafe halkaları, tarama çizgisi ve hedef noktaları bu API ile gerçek zamanlı olarak çizilmektedir.

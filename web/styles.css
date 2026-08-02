@@ -1,0 +1,259 @@
+:root {
+  color-scheme: dark;
+  --bg: #090b0a;
+  --panel: #111715;
+  --panel-2: #17201d;
+  --text: #eef6ef;
+  --muted: #95a59d;
+  --line: #26352f;
+  --green: #39ff8a;
+  --green-soft: rgba(57, 255, 138, 0.14);
+  --amber: #ffbd4a;
+  --red: #ff5d5d;
+  --cyan: #4fd6ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+}
+
+button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #18221f;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  min-height: 42px;
+  padding: 0 14px;
+}
+
+button:hover {
+  border-color: var(--green);
+}
+
+button.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: #02140a;
+  font-weight: 800;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.radar-stage {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 82%, rgba(57, 255, 138, 0.08), transparent 38%),
+    #050706;
+}
+
+#radarCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  border: 1px solid rgba(57, 255, 138, 0.26);
+  border-radius: 6px;
+  background: rgba(5, 7, 6, 0.76);
+  padding: 10px 12px;
+  min-width: 132px;
+}
+
+.top-left {
+  top: 18px;
+  left: 18px;
+}
+
+.top-right {
+  top: 18px;
+  right: 18px;
+  text-align: right;
+}
+
+.label,
+.eyebrow,
+.metric span,
+.section-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.value {
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.state-on {
+  color: var(--green);
+}
+
+.state-off {
+  color: var(--red);
+}
+
+.side-panel {
+  border-left: 1px solid var(--line);
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.panel-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--cyan);
+}
+
+h1 {
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.heartbeat {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 0 rgba(255, 93, 93, 0.5);
+}
+
+.heartbeat.live {
+  background: var(--green);
+  box-shadow: 0 0 18px rgba(57, 255, 138, 0.72);
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-height: 0;
+}
+
+.metric {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  min-height: 68px;
+  padding: 10px;
+}
+
+.metric strong {
+  display: block;
+  font-size: 21px;
+  line-height: 1.1;
+  margin-top: 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.log-panel {
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: 12px;
+}
+
+#eventLog {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+#eventLog li {
+  border-left: 3px solid var(--green);
+  background: #0d1210;
+  color: var(--muted);
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.35;
+  padding: 8px 10px;
+}
+
+#eventLog li.warn {
+  border-left-color: var(--amber);
+  color: var(--amber);
+}
+
+#eventLog li.hit {
+  border-left-color: var(--red);
+  color: #ffd1d1;
+}
+
+@media (max-width: 920px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  body {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  .radar-stage {
+    height: 62vh;
+  }
+
+  .side-panel {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    overflow: visible;
+  }
+
+  #eventLog {
+    max-height: 240px;
+  }
+}

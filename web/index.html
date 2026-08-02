@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pan-Tilt IR Radar</title>
+    <link rel="stylesheet" href="./styles.css?v=7">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="radar-stage" aria-label="Radar ekrani">
+        <canvas id="radarCanvas" width="1100" height="760"></canvas>
+        <div class="overlay top-left">
+          <div class="label">Baglanti</div>
+          <div id="connectionState" class="value state-off">Kapali</div>
+        </div>
+        <div class="overlay top-right">
+          <div class="label">Mod</div>
+          <div id="radarMode" class="value">Beklemede</div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Arduino Uno</p>
+            <h1>Pan-Tilt IR Radar</h1>
+          </div>
+          <span id="heartbeat" class="heartbeat"></span>
+        </header>
+
+        <div class="controls">
+          <button id="connectButton" class="primary">Baglan</button>
+          <button id="startButton">Baslat</button>
+          <button id="stopButton">Durdur</button>
+          <button id="demoButton">Simulasyon</button>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <span>Pan</span>
+            <strong id="panValue">-- deg</strong>
+          </div>
+          <div class="metric">
+            <span>Tilt</span>
+            <strong id="tiltValue">-- deg</strong>
+          </div>
+          <div class="metric">
+            <span>Mesafe</span>
+            <strong id="distanceValue">-- cm</strong>
+          </div>
+          <div class="metric">
+            <span>Hedef</span>
+            <strong id="targetValue">Yok</strong>
+          </div>
+          <div class="metric">
+            <span>SD Kart</span>
+            <strong id="sdValue">--</strong>
+          </div>
+          <div class="metric">
+            <span>MPU6050</span>
+            <strong id="mpuValue">--</strong>
+          </div>
+          <div class="metric">
+            <span>Ivme</span>
+            <strong id="accelValue">-- g</strong>
+          </div>
+          <div class="metric">
+            <span>Gyro</span>
+            <strong id="gyroValue">-- dps</strong>
+          </div>
+          <div class="metric">
+            <span>Arduino Vcc</span>
+            <strong id="vccValue">-- V</strong>
+          </div>
+        </div>
+
+        <section class="log-panel" aria-label="Olay kaydi">
+          <div class="section-title">Olay Kaydi</div>
+          <ol id="eventLog"></ol>
+        </section>
+      </aside>
+    </main>
+
+    <script src="./app.js?v=7"></script>
+  </body>
+</html>

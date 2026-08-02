@@ -1,0 +1,41 @@
+# Yerel Codex/ajan dosyalari
+.agents/
+.codex/
+
+# Gecici dosyalar ve yerel sunucu loglari
+tmp/
+server.*.log
+*.tmp
+
+# Rapor ciktilari ve arsivler
+*.pdf
+*.zip
+
+# LaTeX derleme ara dosyalari
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+_minted-*/
+
+# Arduino calisma zamaninda uretilen kayit
+RADAR.CSV
+
+# Isletim sistemi ve editor artifaktlari
+.DS_Store
+Thumbs.db
+*.swp
+
