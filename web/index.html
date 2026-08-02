@@ -8,11 +8,11 @@
   </head>
   <body>
     <main class="app-shell">
-      <section class="radar-stage" aria-label="Radar ekrani">
+      <section class="radar-stage" aria-label="Radar ekranı">
         <canvas id="radarCanvas" width="1100" height="760"></canvas>
         <div class="overlay top-left">
-          <div class="label">Baglanti</div>
-          <div id="connectionState" class="value state-off">Kapali</div>
+          <div class="label">Bağlantı</div>
+          <div id="connectionState" class="value state-off">Kapalı</div>
         </div>
         <div class="overlay top-right">
           <div class="label">Mod</div>
@@ -30,10 +30,10 @@
         </header>
 
         <div class="controls">
-          <button id="connectButton" class="primary">Baglan</button>
-          <button id="startButton">Baslat</button>
+          <button id="connectButton" class="primary">Bağlan</button>
+          <button id="startButton">Başlat</button>
           <button id="stopButton">Durdur</button>
-          <button id="demoButton">Simulasyon</button>
+          <button id="demoButton">Simülasyon</button>
         </div>
 
         <div class="metrics">
@@ -62,11 +62,11 @@
             <strong id="mpuValue">--</strong>
           </div>
           <div class="metric">
-            <span>Ivme</span>
+            <span>İvme</span>
             <strong id="accelValue">-- g</strong>
           </div>
           <div class="metric">
-            <span>Gyro</span>
+            <span>Jiroskop</span>
             <strong id="gyroValue">-- dps</strong>
           </div>
           <div class="metric">
@@ -75,8 +75,8 @@
           </div>
         </div>
 
-        <section class="log-panel" aria-label="Olay kaydi">
-          <div class="section-title">Olay Kaydi</div>
+        <section class="log-panel" aria-label="Olay kaydı">
+          <div class="section-title">Olay Kaydı</div>
           <ol id="eventLog"></ol>
         </section>
       </aside>

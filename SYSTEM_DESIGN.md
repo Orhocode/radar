@@ -1,59 +1,59 @@
 # Pan-Tilt IR Radar Sistemi
 
-Bu proje RF tabanli klasik radar degildir; Arduino kontrollu pan-tilt mekanizma
-ve Sharp analog IR mesafe sensoru ile calisan aktif tarama sistemidir. Web
-arayuzu, seri porttan gelen telemetriyi polar radar ekranina donusturur.
+Bu proje RF tabanlı klasik radar değildir; Arduino kontrollü pan-tilt mekanizma
+ve Sharp analog IR mesafe sensörü ile çalışan aktif tarama sistemidir. Web
+arayüzü, seri porttan gelen telemetriyi polar radar ekranına dönüştürür.
 
 ## Sistem Mimarisi
 
-- Algilama katmani: Sharp GP2Y0A02YK0F analog mesafe sensoru
-- Hareket katmani: MG90S pan servo, SG90S tilt servo
-- Gomulu kontrol: Arduino Uno
-- Yerel kullanici arayuzu: 16x2 I2C LCD
-- Hareket izleme: MPU6050 ivmeolcer/jiroskop
-- Veri kaydi: SPI SD kart modulu, `RADAR.CSV`
-- Web arayuzu: Web Serial API ile USB seri port uzerinden canli veri
+- Algılama katmanı: Sharp GP2Y0A02YK0F analog mesafe sensörü
+- Hareket katmanı: MG90S pan servo, SG90S tilt servo
+- Gömülü kontrol: Arduino Uno
+- Yerel kullanıcı arayüzü: 16x2 I2C LCD
+- Hareket izleme: MPU6050 ivmeölçer/jiroskop
+- Veri kaydı: SPI SD kart modülü, `RADAR.CSV`
+- Web arayüzü: Web Serial API ile USB seri port üzerinden canlı veri
 
 ## Seri Protokol
 
-Arduino 115200 baud hizinda satir bazli JSON telemetri uretir.
+Arduino 115200 baud hızında satır bazlı JSON telemetri üretir.
 
-Ornek:
+Örnek:
 
 ```json
 {"type":"scan","enabled":true,"pan":82,"tilt":91,"target":true,"distance_cm":64.5,"threshold_cm":120,"sd":true,"mpu":true,"imu":{"ax":120,"ay":-84,"az":16320,"gx":4,"gy":-1,"gz":2},"uptime_ms":38122}
 ```
 
-Web tarafindan gonderilen komutlar:
+Web tarafından gönderilen komutlar:
 
-- `START`: taramayi baslatir
-- `STOP`: taramayi durdurur
-- `TOGGLE`: ac/kapat durumunu degistirir
-- `STATUS`: anlik telemetri ister
+- `START`: taramayı başlatır
+- `STOP`: taramayı durdurur
+- `TOGGLE`: aç/kapat durumunu değiştirir
+- `STATUS`: anlık telemetri ister
 
-## Muhendislik Notlari
+## Mühendislik Notları
 
-- Servo hareketi bloklamasiz zamanlama ile yapilir. Boylece LCD, sensor ve
-  seri haberlesme birbirini uzun sure bekletmez.
-- Buton girisi `INPUT_PULLUP` ve debounce ile okunur.
-- I2C kilitlenmelerine karsi `Wire.setWireTimeout()` kullanilir.
-- Servo PWM sinyali kapali modda `detach()` ile kesilir; bu akim tuketimini
-  ve titremeyi azaltir.
-- Web arayuzu ham veriyi sadece listelemez; pan acisi ve mesafeyi polar
-  koordinata cevirerek hedef izlerini gosterir.
-- SD kaydi 250 ms aralikla yapilir. Bu, her sensor okumasinda dosya ac/kapat
-  yapmanin Uno ve SD kart uzerindeki yukunu azaltir.
-- MPU6050 ham register seviyesinde okunur; ek kutuphane bagimliligi yoktur.
-  Ham degerler web tarafinda `g` ve `deg/s` buyukluklerine cevrilir.
+- Servo hareketi bloklamasız zamanlama ile yapılır. Böylece LCD, sensör ve
+  seri haberleşme birbirini uzun süre bekletmez.
+- Buton girişi `INPUT_PULLUP` ve debounce ile okunur.
+- I2C kilitlenmelerine karşı `Wire.setWireTimeout()` kullanılır.
+- Servo PWM sinyali kapalı modda `detach()` ile kesilir; bu akım tüketimini
+  ve titremeyi azaltır.
+- Web arayüzü ham veriyi sadece listelemez; pan açısı ve mesafeyi polar
+  koordinata çevirerek hedef izlerini gösterir.
+- SD kaydı 1000 ms aralıkla yapılır. Bu, her sensör okumasında dosya aç/kapat
+  yapmanın Uno ve SD kart üzerindeki yükünü azaltır.
+- MPU6050 ham yazmaç seviyesinde okunur; ek kütüphane bağımlılığı yoktur.
+  Ham değerler web tarafında `g` ve `deg/s` büyüklüklerine çevrilir.
 
-## Gercek Radar Yonunde Gelistirme
+## Gerçek Radar Yönünde Geliştirme
 
-Daha gercekci radar algilamasi icin mevcut Sharp IR sensor yerine su
-modullerden biri eklenebilir:
+Daha gerçekçi radar algılaması için mevcut Sharp IR sensörü yerine şu
+modüllerden biri eklenebilir:
 
-- HB100 Doppler radar: hareket algilama, hiz kestirimi icin
-- RCWL-0516: basit hareket algilama icin
-- TI IWR serisi mmWave radar: menzil, hiz ve aci kestirimi icin
+- HB100 Doppler radar: hareket algılama, hız kestirimi için
+- RCWL-0516: basit hareket algılama için
+- TI IWR serisi mmWave radar: menzil, hız ve açı kestirimi için
 
-Bu durumda web arayuzundeki polar gosterim korunur; sadece Arduino telemetri
-kaynagi ve sensor isleme katmani degisir.
+Bu durumda web arayüzündeki polar gösterim korunur; sadece Arduino telemetri
+kaynağı ve sensör işleme katmanı değişir.

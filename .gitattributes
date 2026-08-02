@@ -1,0 +1,2 @@
+# PDF dosyalarında satır sonu dönüşümü yapılmamalıdır.
+*.pdf binary

@@ -1,70 +1,72 @@
 # Pan-Tilt IR Radar Sistemi
 
-Arduino Uno tabanli bu proje; pan-tilt mekanizma, Sharp IR mesafe sensoru,
-MPU6050, I2C LCD ve SD kart modulunu birlestiren aktif bir tarama sistemidir.
-Tarama telemetrisi USB seri portu uzerinden tarayiciya aktarilir ve polar radar
-arayuzunde canli olarak gorsellestirilir.
+Arduino Uno tabanlı bu proje; pan-tilt mekanizma, Sharp IR mesafe sensörü,
+MPU6050, I2C LCD ve SD kart modülünü birleştiren aktif bir tarama sistemidir.
+Tarama telemetrisi USB seri portu üzerinden tarayıcıya aktarılır ve polar radar
+arayüzünde canlı olarak görselleştirilir.
 
-> Bu sistem RF tabanli klasik radar degildir; mesafe olcumu Sharp
-> GP2Y0A02YK0F analog IR sensoru ile yapilir.
+> Bu sistem RF tabanlı klasik radar değildir; mesafe ölçümü Sharp
+> GP2Y0A02YK0F analog IR sensörü ile yapılır.
 
-## Ozellikler
+## Özellikler
 
-- Bloklamasiz pan-tilt servo kontrolu
-- IR mesafe olcumu ve esik tabanli hedef tespiti
-- MPU6050 ivmeolcer/jiroskop telemetrisi
-- 16x2 I2C LCD durum ekrani
-- SD karta `RADAR.CSV` kaydi
-- 115200 baud JSON seri protokolu
-- Web Serial API tabanli canli radar arayuzu
-- Donanim gerektirmeyen tarayici simulasyon modu
+- Bloklamasız pan-tilt servo kontrolü
+- IR mesafe ölçümü ve eşik tabanlı hedef tespiti
+- MPU6050 ivmeölçer/jiroskop telemetrisi
+- 16x2 I2C LCD durum ekranı
+- SD karta `RADAR.CSV` kaydı
+- 115200 baud JSON seri protokolü
+- Web Serial API tabanlı canlı radar arayüzü
+- Donanım gerektirmeyen tarayıcı simülasyon modu
 
-## Dizin Yapisi
+## Dizin Yapısı
 
 ```text
 RadarPanTilt/       Arduino firmware'i
-web/                Web Serial radar arayuzu
-thesis_template/    LaTeX rapor kaynaklari ve gorseller
-SYSTEM_DESIGN.md    Sistem mimarisi ve protokol ayrintilari
+web/                Web Serial radar arayüzü
+SYSTEM_DESIGN.md    Sistem mimarisi ve protokol ayrıntıları
+Pan_Tilt_IR_Radar_Raporu_Duzenli.pdf
+                    Proje raporu
 ```
 
-Derlenmis rapor PDF'leri, gecici render dosyalari ve LaTeX ara ciktilari depoya
-dahil edilmez.
+## Proje Raporu
+
+[Pan-Tilt IR Radar Proje Raporu](Pan_Tilt_IR_Radar_Raporu_Duzenli.pdf)
 
 ## Firmware Kurulumu
 
-Gerekli temel bilesenler:
+Gerekli temel bileşenler:
 
 - Arduino Uno
-- Sharp GP2Y0A02YK0F IR mesafe sensoru
+- Sharp GP2Y0A02YK0F IR mesafe sensörü
 - MG90S pan ve SG90S tilt servo
 - MPU6050
 - 16x2 I2C LCD (`0x3F`)
-- SPI SD kart modulu
+- SPI SD kart modülü
 
-Arduino IDE icinde su kutuphaneleri kurun:
+Arduino IDE içinde şu kütüphaneleri kurun:
 
 - `SdFat`
 - `Servo`
 - `LiquidCrystal_I2C`
 
-Ardindan `RadarPanTilt/RadarPanTilt.ino` dosyasini Arduino Uno'ya yukleyin.
-Servo motorlari Arduino'nun 5 V pininden beslemeyin; uygun harici besleme
-kullanin ve Arduino ile ortak GND olusturun.
+Ardından `RadarPanTilt/RadarPanTilt.ino` dosyasını Arduino Uno'ya yükleyin.
+Servo motorları Arduino'nun 5 V pininden beslemeyin; uygun harici besleme
+kullanın ve Arduino ile ortak GND oluşturun.
 
-## Web Arayuzu
+## Web Arayüzü
 
-Web Serial API icin Chrome veya Edge kullanin. Arayuzu yerel bir HTTP sunucusu
-uzerinden acmak icin:
+Web Serial API için Chrome veya Edge kullanın. Arayüzü yerel bir HTTP sunucusu
+üzerinden açmak için:
 
 ```powershell
 cd web
 python -m http.server 8000
 ```
 
-Tarayicida `http://localhost:8000` adresini acin, **Baglan** dugmesine basin ve
-Arduino'nun seri portunu secin. Donanim olmadan arayuzu incelemek icin
-**Simulasyon** dugmesini kullanabilirsiniz.
+Tarayıcıda `http://localhost:8000` adresini açın, **Bağlan** düğmesine basın ve
+Arduino'nun seri portunu seçin. Donanım olmadan arayüzü incelemek için
+**Simülasyon** düğmesini kullanabilirsiniz.
 
-Sistem mimarisi, pinler, seri komutlar ve telemetri ornegi icin
-[`SYSTEM_DESIGN.md`](SYSTEM_DESIGN.md) belgesine bakin.
+Sistem mimarisi, pinler, seri komutlar ve telemetri örneği için
+[`SYSTEM_DESIGN.md`](SYSTEM_DESIGN.md) belgesine bakın.

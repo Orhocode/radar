@@ -64,7 +64,7 @@ function setConnectionState(connected, text) {
   radar.connected = connected;
   els.connectionState.textContent = text;
   els.connectionState.className = connected ? "value state-on" : "value state-off";
-  els.connectButton.textContent = connected ? "Bagli" : "Baglan";
+  els.connectButton.textContent = connected ? "Bağlı" : "Bağlan";
 }
 
 function angleToPoint(panDeg, distanceCm, geom) {
@@ -189,12 +189,12 @@ function applyPacket(packet) {
 
   radar.lastPacket = packet;
   els.heartbeat.classList.toggle("live", packet.enabled);
-  els.radarMode.textContent = packet.enabled ? "Tarama" : "Kapali";
+  els.radarMode.textContent = packet.enabled ? "Tarama" : "Kapalı";
   els.panValue.textContent = `${packet.pan} deg`;
   els.tiltValue.textContent = `${packet.tilt} deg`;
   els.distanceValue.textContent = packet.distance_cm == null ? "-- cm" : `${packet.distance_cm.toFixed(1)} cm`;
   els.targetValue.textContent = packet.target ? "Var" : "Yok";
-  els.sdValue.textContent = hasField(packet, "sd") ? (packet.sd ? "Kayit" : "Yok") : "Eski kod";
+  els.sdValue.textContent = hasField(packet, "sd") ? (packet.sd ? "Kayıt" : "Yok") : "Eski kod";
   els.mpuValue.textContent = hasField(packet, "mpu") ? (packet.mpu ? "Aktif" : "Yok") : "Eski kod";
 
   if (hasField(packet, "vcc_mv")) {
@@ -241,11 +241,11 @@ function parseLine(line) {
   const trimmed = line.trim();
   if (!trimmed) return;
 
-  // Arduino reset atarsa veya seri akista yarim satir gelirse JSON eksik kalir.
-  // Eksik paketleri sessizce atiyoruz; bir sonraki tam paket arayuzu gunceller.
+  // Arduino reset atarsa veya seri akışta yarım satır gelirse JSON eksik kalır.
+  // Eksik paketleri sessizce atıyoruz; bir sonraki tam paket arayüzü günceller.
   if (trimmed.startsWith("{") && !trimmed.endsWith("}")) {
     if (performance.now() - radar.lastInvalidLogMs > 3000) {
-      logEvent("Eksik seri paket atlandi", "warn");
+      logEvent("Eksik seri paket atlandı", "warn");
       radar.lastInvalidLogMs = performance.now();
     }
     return;
@@ -255,7 +255,7 @@ function parseLine(line) {
     applyPacket(JSON.parse(trimmed));
   } catch (error) {
     if (performance.now() - radar.lastInvalidLogMs > 3000) {
-      logEvent(`Gecersiz veri: ${trimmed.slice(0, 48)}`, "warn");
+      logEvent(`Geçersiz veri: ${trimmed.slice(0, 48)}`, "warn");
       radar.lastInvalidLogMs = performance.now();
     }
   }
@@ -263,7 +263,7 @@ function parseLine(line) {
 
 async function connectSerial() {
   if (!("serial" in navigator)) {
-    logEvent("Web Serial desteklenmiyor. Chrome veya Edge kullan.", "warn");
+    logEvent("Web Serial desteklenmiyor. Chrome veya Edge kullanın.", "warn");
     return;
   }
 
@@ -271,13 +271,13 @@ async function connectSerial() {
     radar.port = await navigator.serial.requestPort();
     await radar.port.open({ baudRate: 115200 });
     radar.writer = radar.port.writable.getWriter();
-    setConnectionState(true, "Bagli");
-    logEvent("Seri port acildi");
+    setConnectionState(true, "Bağlı");
+    logEvent("Seri port açıldı");
     readSerialLoop();
     await sendCommand("STATUS");
   } catch (error) {
-    setConnectionState(false, "Kapali");
-    logEvent(`Baglanti hatasi: ${error.message}`, "warn");
+    setConnectionState(false, "Kapalı");
+    logEvent(`Bağlantı hatası: ${error.message}`, "warn");
   }
 }
 
@@ -298,7 +298,7 @@ async function readSerialLoop() {
   } catch (error) {
     logEvent(`Okuma durdu: ${error.message}`, "warn");
   } finally {
-    setConnectionState(false, "Kapali");
+    setConnectionState(false, "Kapalı");
   }
 }
 
@@ -310,7 +310,7 @@ async function sendCommand(command) {
   }
 
   if (!radar.writer) {
-    logEvent("Seri port bagli degil", "warn");
+    logEvent("Seri port bağlı değil", "warn");
     return;
   }
 
@@ -322,7 +322,7 @@ async function sendCommand(command) {
 function startDemo() {
   radar.demo = !radar.demo;
   radar.demoEnabled = true;
-  els.demoButton.textContent = radar.demo ? "Simulasyon Acik" : "Simulasyon";
+  els.demoButton.textContent = radar.demo ? "Simülasyon Açık" : "Simülasyon";
 
   if (!radar.demo) return;
 
@@ -334,7 +334,7 @@ function startDemo() {
   const timer = setInterval(() => {
     if (!radar.demo) {
       clearInterval(timer);
-      setConnectionState(false, "Kapali");
+      setConnectionState(false, "Kapalı");
       return;
     }
 
@@ -377,4 +377,4 @@ els.demoButton.addEventListener("click", startDemo);
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 render();
-logEvent("Panel hazir");
+logEvent("Panel hazır");

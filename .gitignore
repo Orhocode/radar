@@ -1,17 +1,19 @@
-# Yerel Codex/ajan dosyalari
+# Yerel Codex/ajan dosyaları
 .agents/
 .codex/
+thesis_template/
 
-# Gecici dosyalar ve yerel sunucu loglari
+# Geçici dosyalar ve yerel sunucu logları
 tmp/
 server.*.log
 *.tmp
 
-# Rapor ciktilari ve arsivler
+# Rapor çıktıları ve arşivler
 *.pdf
+!Pan_Tilt_IR_Radar_Raporu_Duzenli.pdf
 *.zip
 
-# LaTeX derleme ara dosyalari
+# LaTeX derleme ara dosyaları
 *.aux
 *.bbl
 *.bcf
@@ -31,11 +33,10 @@ server.*.log
 *.xdv
 _minted-*/
 
-# Arduino calisma zamaninda uretilen kayit
+# Arduino çalışma zamanında üretilen kayıt
 RADAR.CSV
 
-# Isletim sistemi ve editor artifaktlari
+# İşletim sistemi ve editör artifaktları
 .DS_Store
 Thumbs.db
 *.swp
-
